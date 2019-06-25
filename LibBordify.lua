@@ -4,7 +4,17 @@
 -- StartDate   18/06/2019
 --
 
-function Library.LibBordify.addborders(frametomodify)
+--
+--	Sintax:	Library.LibBordify.addborders(<frametomodify> [, position])
+--
+--				<frametomodify>=	object to attach borders to
+--				[position]		=	"inside"|"outside", default="outside",
+--										where to put borders relative to frametomodify.
+--
+function Library.LibBordify.addborders(frametomodify, position)
+
+	offset	=	"inside"
+	if	position ~= nil and position == 'outside' then	offset	=	"outside"	end
 
 	--	widths
 	local size				=	{}
@@ -21,8 +31,6 @@ function Library.LibBordify.addborders(frametomodify)
 	parent.obj				=	frametomodify
 	parent.layer			=	parent.obj:GetLayer()
 	parent.name				=	parent.obj:GetName()
-	parent.bgcolor			=	{}
-	parent.bgcolor.r, parent.bgcolor.g, parent.bgcolor.b, parent.bgcolor.a	=	parent.obj:GetBackgroundColor()
 
 	local obj				=	{}
 
@@ -59,24 +67,48 @@ function Library.LibBordify.addborders(frametomodify)
 	--
 	--
 	--	top
-	obj.t:SetPoint( 'BOTTOMLEFT', 	parent.obj, 'TOPLEFT')
-	obj.t:SetPoint( 'BOTTOMRIGHT', 	parent.obj, 'TOPRIGHT')
-	--	top left
-	obj.tl:SetPoint( 'BOTTOMRIGHT', 	parent.obj, 'TOPLEFT')
-	--	top right
-	obj.tr:SetPoint( 'BOTTOMLEFT', 	parent.obj, 'TOPRIGHT')
-	--	left
-	obj.l:SetPoint( 'TOPRIGHT', 		parent.obj, 'TOPLEFT')
-	obj.l:SetPoint( 'BOTTOMRIGHT', 	parent.obj, 'BOTTOMLEFT')
-	--	right
-	obj.r:SetPoint( 'TOPLEFT', 		parent.obj, 'TOPRIGHT')
-	obj.r:SetPoint( 'BOTTOMLEFT', 	parent.obj, 'BOTTOMRIGHT')
-	--	bottom
-	obj.b:SetPoint( 'TOPLEFT', 		parent.obj, 'BOTTOMLEFT')
-	obj.b:SetPoint( 'TOPRIGHT', 		parent.obj, 'BOTTOMRIGHT')
-	--	bottom left
-	obj.bl:SetPoint( 'TOPRIGHT', 		parent.obj, 'BOTTOMLEFT')
-	obj.br:SetPoint( 'TOPLEFT', 		parent.obj, 'BOTTOMRIGHT')
+	if	offset	==	"outside"	then
+		obj.t:SetPoint(	'BOTTOMLEFT', 	parent.obj,	'TOPLEFT')
+		obj.t:SetPoint( 	'BOTTOMRIGHT', parent.obj, 'TOPRIGHT')
+		--	corner top left
+		obj.tl:SetPoint( 	'BOTTOMRIGHT', parent.obj, 'TOPLEFT')
+		--	corner top right
+		obj.tr:SetPoint( 	'BOTTOMLEFT', 	parent.obj, 'TOPRIGHT')
+		--	left
+		obj.l:SetPoint( 	'TOPRIGHT', 	parent.obj, 'TOPLEFT')
+		obj.l:SetPoint( 	'BOTTOMRIGHT', parent.obj, 'BOTTOMLEFT')
+		--	right
+		obj.r:SetPoint( 	'TOPLEFT', 		parent.obj, 'TOPRIGHT')
+		obj.r:SetPoint( 	'BOTTOMLEFT', 	parent.obj, 'BOTTOMRIGHT')
+		--	bottom
+		obj.b:SetPoint( 	'TOPLEFT', 		parent.obj, 'BOTTOMLEFT')
+		obj.b:SetPoint( 	'TOPRIGHT', 	parent.obj, 'BOTTOMRIGHT')
+		--	corner bottom left
+		obj.bl:SetPoint( 	'TOPRIGHT', 	parent.obj, 'BOTTOMLEFT')
+		--	corner bottom right
+		obj.br:SetPoint( 	'TOPLEFT',		parent.obj, 'BOTTOMRIGHT')
+	else
+		--	corner top left
+		obj.tl:SetPoint( 	'TOPLEFT', 		parent.obj, 'TOPLEFT')
+		--	corner top right
+		obj.tr:SetPoint( 	'TOPRIGHT', 	parent.obj, 'TOPRIGHT')
+		--	top stright element
+		obj.t:SetPoint(	'TOPLEFT', 		obj.tl,		'TOPRIGHT')
+		obj.t:SetPoint( 	'TOPRIGHT', 	obj.tr, 		'TOPLEFT')
+		--	corner bottom left
+		obj.bl:SetPoint( 	'BOTTOMLEFT', 	parent.obj, 'BOTTOMLEFT')
+		--	corner bottom right
+		obj.br:SetPoint( 	'BOTTOMRIGHT',	parent.obj, 'BOTTOMRIGHT')
+		--	left stright element
+		obj.l:SetPoint( 	'TOPLEFT', 		obj.tl, 		'BOTTOMLEFT')
+		obj.l:SetPoint( 	'BOTTOMLEFT', 	obj.bl, 		'TOPLEFT')
+		--	right stright element
+		obj.r:SetPoint( 	'TOPRIGHT', 	obj.tr, 		'BOTTOMRIGHT')
+		obj.r:SetPoint( 	'BOTTOMRIGHT', obj.br, 		'TOPRIGHT')
+		--	bottom stright element
+		obj.b:SetPoint( 	'BOTTOMLEFT', 	obj.bl, 		'BOTTOMRIGHT')
+		obj.b:SetPoint( 	'BOTTOMRIGHT', obj.br, 		'BOTTOMLEFT')
+	end
 
 	return
 end

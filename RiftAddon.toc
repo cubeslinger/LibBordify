@@ -1,7 +1,7 @@
 Identifier  =  "LibBordify"
 Name        =  { English = "LibBordify" }
 NameShort   =  "LibBordify"
-Version     =  "0.1"
+Version     =  "0.2"
 Description =  { English = "Library to wrap Simple Borders around a Frame" }
 Author      =  "marcob@marcob.org"
 Website     =  "https://github.com/cubeslinger/__menus"
